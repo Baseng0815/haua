@@ -30,6 +30,7 @@
 
             buildInputs = with pkgs; [
               mbedtls
+              opcua-client-gui
             ];
 
             shellHook = ''

@@ -22,4 +22,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(UA_ENABLE_AMALGAMATION OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/open62541)
 
-add_subdirectory(lighting)
+add_compile_options(-Wno-c++-compat)
+
+add_subdirectory(node/generic)
+add_subdirectory(led)
+add_subdirectory(node/x86)
