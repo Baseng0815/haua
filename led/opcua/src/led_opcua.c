@@ -113,10 +113,8 @@ static led_error_t
 add_strip_num_leds(UA_NodeId strip_id, struct node *node, struct strip *strip)
 {
 	UA_VariableAttributes attr = UA_VariableAttributes_default;
-        UA_UInt32 num_leds = strip->info.num_leds;
-	UA_Variant_setScalar(
-		&attr.value, &num_leds, &UA_TYPES[UA_TYPES_UINT32]
-	);
+	UA_UInt32 num_leds = strip->info.num_leds;
+	UA_Variant_setScalar(&attr.value, &num_leds, &UA_TYPES[UA_TYPES_UINT32]);
 	attr.displayName = UA_LOCALIZEDTEXT("en-US", "NumLeds");
 	if (UA_Server_addVariableNode(
 		    node->server, UA_NODEID_NULL, strip_id,
@@ -132,7 +130,26 @@ add_strip_num_leds(UA_NodeId strip_id, struct node *node, struct strip *strip)
 static led_error_t
 add_strip_position(UA_NodeId strip_id, struct node *node, struct strip *strip)
 {
-  // TODO
+	UA_VariableAttributes attr = UA_VariableAttributes_default;
+	UA_UInt32 position[2] = {
+		strip->info.position.group,
+		strip->info.position.index,
+	};
+	UA_Variant_setArray(
+		&attr.value, position, 2, &UA_TYPES[UA_TYPES_UINT32]
+	);
+	UA_UInt32 position_dims[1] = { 2 };
+	attr.valueRank = UA_VALUERANK_ONE_DIMENSION;
+	attr.arrayDimensions = position_dims;
+	attr.arrayDimensionsSize = 1;
+	attr.displayName = UA_LOCALIZEDTEXT("en-US", "Position");
+	if (UA_Server_addVariableNode(
+		    node->server, UA_NODEID_NULL, strip_id,
+		    UA_NS0ID(HASCOMPONENT), UA_QUALIFIEDNAME(1, "Position"),
+		    UA_NS0ID(BASEDATAVARIABLETYPE), attr, NULL, NULL
+	    ) != UA_STATUSCODE_GOOD) {
+		return LED_ERROR_UNKNOWN;
+	}
 
-  return LED_ERROR_OK;
+	return LED_ERROR_OK;
 }
