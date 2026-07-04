@@ -6,28 +6,25 @@
 #include <types.h>
 #include <hal.h>
 
-struct mock_strip_drv {
-	char *name;
-};
-
 led_error_t led_hal_init(const void *config, struct strip *strip)
 {
 	const struct mock_strip_config *mock_config = config;
 
 	printf("Initializing mock strip %s\n", mock_config->name);
 
-	struct mock_strip_drv *drv = malloc(sizeof(struct mock_strip_drv));
-	drv->name = malloc(strlen(mock_config->name) + 1);
-	strcpy(drv->name, mock_config->name);
-	strip->drv = drv;
+	strip->drv = NULL;
 
 	strip->state.on_off_state = LED_ON;
 	strip->state.brightness = 1;
-	strip->state.colors = malloc(sizeof(struct color_rgb) * mock_config->num_leds);
+	strip->state.colors =
+		malloc(sizeof(struct color_rgb) * mock_config->num_leds);
 
-        strip->info.num_leds = mock_config->num_leds;
+	strip->info.num_leds = mock_config->num_leds;
 	strip->info.position.group = 0;
 	strip->info.position.index = 0;
+
+	strip->info.name = malloc(strlen(mock_config->name) + 1);
+	strcpy(strip->info.name, mock_config->name);
 
 	return LED_ERROR_OK;
 }
@@ -58,14 +55,8 @@ led_error_t led_hal_deinit(struct strip *strip)
 
 	printf("Deinitializing mock strip %s\n", mock_config->name);
 
-	struct mock_strip_drv *drv = strip->drv;
-	free(drv->name);
-
-	free(drv);
-	strip->drv = NULL;
-
-        free(strip->state.colors);
-        strip->state.colors = NULL;
+	free(strip->state.colors);
+	strip->state.colors = NULL;
 
 	return LED_ERROR_OK;
 }

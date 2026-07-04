@@ -6,10 +6,11 @@
 
 struct node *node_create(const char *name)
 {
-	struct node *node = malloc(sizeof(struct node));
+	struct node *node = malloc(sizeof(*node));
 
 	node->name = name;
 	node->server = UA_Server_new();
+        node->data = NULL;
 
 	return node;
 }

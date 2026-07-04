@@ -42,7 +42,7 @@ int main(void)
 		struct strip *strip = &strips[i];
 
 		led_hal_init(&strip_configs[i], strip);
-		led_opcua_expose_strip(node, strip, strip_configs[i].name);
+		led_opcua_expose_strip(node, strip);
 		led_opcua_show_periodic(node, strip);
 
                 strip->info.position.group = i * 3;

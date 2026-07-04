@@ -12,11 +12,11 @@ struct color_rgb {
 
 /**
  * The strip position determines the position of the logical strip. It is made up
- * of a group index as well as of an index inside of that group.
+ * of a group index as well as an index inside of that group.
  */
 struct strip_position {
-  led_group_t group;
-  led_index_t index;
+	led_group_t group;
+	led_index_t index;
 };
 
 /**
@@ -35,7 +35,8 @@ struct strip_state {
  */
 struct strip_info {
 	size_t num_leds;
-        struct strip_position position;
+	struct strip_position position;
+        char *name;
 };
 
 /**
