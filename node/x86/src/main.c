@@ -16,26 +16,9 @@ static const struct mock_strip_config strip_configs[] = {
 
 #define NUM_STRIPS (sizeof(strip_configs) / sizeof(strip_configs[0]))
 
-static struct strip strips[NUM_STRIPS];
-
-static void tick(uint32_t now_ms, void *ctx)
-{
-	size_t i;
-
-	(void)now_ms;
-	(void)ctx;
-
-	for (i = 0; i < NUM_STRIPS; i++) {
-		led_hal_show(&strips[i]);
-	}
-}
-
 int main(void)
 {
-	struct node *node;
-	size_t i;
-
-	node = node_create("haua-x86-mock");
+	struct node *node = node_create("haua-x86-mock");
 	if (!node) {
 		return 1;
 	}
@@ -44,18 +27,19 @@ int main(void)
 	node->led_subsystem.strips =
 		malloc(sizeof(*node->led_subsystem.strips) * NUM_STRIPS);
 
-	for (i = 0; i < NUM_STRIPS; i++) {
-		struct strip *strip = &node->led_subsystem.strips[i];
+	for (size_t strip_i = 0; strip_i < NUM_STRIPS; strip_i++) {
+		struct strip *strip = &node->led_subsystem.strips[strip_i];
 
-		led_hal_init(&strip_configs[i], strip);
+		led_hal_init(&strip_configs[strip_i], strip);
 
-		strip->info.position.group = i * 3;
+		strip->info.position.group = strip_i * 3;
 	}
 
 	node_run(node);
 
-	for (i = 0; i < NUM_STRIPS; i++) {
-		led_hal_deinit(&strips[i]);
+	for (size_t strip_i = 0; strip_i < node->led_subsystem.num_strips;
+	     strip_i++) {
+		led_hal_deinit(&node->led_subsystem.strips[strip_i]);
 	}
 
 	node_destroy(node);

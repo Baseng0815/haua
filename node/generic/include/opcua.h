@@ -1,5 +1,6 @@
 #pragma once
 
+#include "open62541/types.h"
 #include <node/types.h>
 #include <open62541/server.h>
 
@@ -11,6 +12,7 @@ struct node;
 struct node_opcua_data {
 	struct UA_Server *server;
         UA_NodeId node_object_type;
+        UA_NodeId node_object_instance;
 };
 
 /**

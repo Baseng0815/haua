@@ -1,6 +1,6 @@
 #pragma once
 
 typedef enum {
-	NODE_OK,
-	NODE_ERROR,
+	NODE_ERROR_OK,
+	NODE_ERROR_UNKNOWN,
 } node_error_t;

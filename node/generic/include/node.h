@@ -7,7 +7,7 @@
  * A wrapper struct that bundles node and subsystem data together.
  */
 struct node {
-	const char *name;
+	char *name;
 
         /** Data the generic node needs to keep about the OPC UA server it
          * is hosting.
@@ -17,7 +17,7 @@ struct node {
         struct led_subsystem led_subsystem;
 };
 
-struct node *node_create(const char *name);
+struct node *node_create(char *name);
 void node_destroy(struct node *node);
 
 /** 
