@@ -40,14 +40,15 @@ cmake --build build         # build everything
 
 ## Conventions
 
-- Linux kernel C style, enforced by `.clang-format`: tabs (width 8), 80-column
-  limit, opening brace on its own line for functions but same line for control
-  statements. Run `clang-format` before committing.
+- Linux kernel C style, enforced by `.clang-format`: spaces only (indent
+  width 8), 80-column limit, opening brace on its own line for functions but
+  same line for control statements. Run `clang-format` before committing.
 - C99 for C, C++17 for C++.
 - `snake_case` for functions, types, and variables; `#pragma once` for headers.
 - Public headers go in a module's `include/`, added with
   `target_include_directories(... PUBLIC include)` and consumed via angle
-  brackets (`#include <hal.h>`).
+  brackets with a namespace prefix (`#include <led/hal.h>`), resolved by the
+  self-symlink `include/<ns> -> .` in each include dir.
 
 ## Rules
 

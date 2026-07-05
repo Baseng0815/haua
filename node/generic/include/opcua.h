@@ -10,7 +10,7 @@ struct node;
  * OPC UA data the node needs to manage the server and expose itself.
  */
 struct node_opcua_data {
-	struct UA_Server *server;
+        struct UA_Server *server;
         UA_NodeId node_object_type;
         UA_NodeId node_object_instance;
 };

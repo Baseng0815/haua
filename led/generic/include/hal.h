@@ -5,9 +5,9 @@
 #include <stdint.h>
 
 struct color_rgb {
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
 };
 
 /**
@@ -15,8 +15,8 @@ struct color_rgb {
  * of a group index as well as an index inside of that group.
  */
 struct strip_position {
-	led_group_t group;
-	led_index_t index;
+        led_group_t group;
+        led_index_t index;
 };
 
 /**
@@ -25,17 +25,17 @@ struct strip_position {
  * HAL.
  */
 struct strip_state {
-	struct color_rgb *colors;
-	enum led_onoff_state on_off_state;
-	led_brightness_t brightness;
+        struct color_rgb *colors;
+        enum led_onoff_state on_off_state;
+        led_brightness_t brightness;
 };
 
 /**
  * Strip info describes a logical strip in a device-agnostic manner.
  */
 struct strip_info {
-	size_t num_leds;
-	struct strip_position position;
+        size_t num_leds;
+        struct strip_position position;
         char *name;
 };
 
@@ -44,9 +44,9 @@ struct strip_info {
  * immutable properties and driver-specific data.
  */
 struct strip {
-	struct strip_state state;
-	struct strip_info info;
-	void *drv;
+        struct strip_state state;
+        struct strip_info info;
+        void *drv;
 };
 
 /**

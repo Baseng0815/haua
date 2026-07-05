@@ -3,5 +3,5 @@
 
 int main(void)
 {
-	printf("%d\n", haua_led_version());
+        printf("%d\n", haua_led_version());
 }
