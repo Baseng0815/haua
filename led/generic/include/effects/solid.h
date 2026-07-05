@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hal.h>
-#include <types.h>
+#include <led/hal.h>
+#include <led/types.h>
 
 struct solid_params {
 	struct color_rgb color;

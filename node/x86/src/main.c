@@ -1,11 +1,13 @@
-#include "effects/effects.h"
-#include <led_opcua.h>
-#include <mock_strip.h>
-#include <node.h>
+#include "opcua.h"
+#include <led/effects/effects.h>
+#include <led/hal.h>
+#include <led/mock_strip.h>
+#include <led/opcua.h>
+#include <node/node.h>
 
-#include <hal.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 static const struct mock_strip_config strip_configs[] = {
 	{ .name = "living-room", .num_leds = 30 },
@@ -38,29 +40,19 @@ int main(void)
 		return 1;
 	}
 
+	node->led_subsystem.num_strips = NUM_STRIPS;
+	node->led_subsystem.strips =
+		malloc(sizeof(*node->led_subsystem.strips) * NUM_STRIPS);
+
 	for (i = 0; i < NUM_STRIPS; i++) {
-		struct strip *strip = &strips[i];
+		struct strip *strip = &node->led_subsystem.strips[i];
 
 		led_hal_init(&strip_configs[i], strip);
-		led_opcua_expose_strip(node, strip);
-		led_opcua_show_periodic(node, strip);
 
-                strip->info.position.group = i * 3;
-
-		struct solid_params solid_params = {
-			.color = { .r = 100, .b = 125, .g = 30 }
-		};
-
-		struct effect_params effect_params = { .kind = EFFECT_SOLID,
-						       .params.solid_params =
-							       solid_params };
-
-		struct effect effect = { .params = effect_params, .time = 0 };
-
-		effect_apply(&effect, strip);
+		strip->info.position.group = i * 3;
 	}
 
-        node_run(node);
+	node_run(node);
 
 	for (i = 0; i < NUM_STRIPS; i++) {
 		led_hal_deinit(&strips[i]);

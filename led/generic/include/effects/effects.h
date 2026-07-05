@@ -1,7 +1,7 @@
 #pragma once
 
-#include <effects/solid.h>
-#include <types.h>
+#include <led/effects/solid.h>
+#include <led/types.h>
 
 enum effect_kind { EFFECT_SOLID };
 

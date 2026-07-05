@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hal.h>
+#include <led/hal.h>
 
 struct mock_strip_config {
 	const char *name;

@@ -1,30 +1,28 @@
 #pragma once
 
-#include <stdint.h>
-
-typedef enum {
-	NODE_OK,
-	NODE_ERROR,
-} node_error_t;
-
-typedef void (*node_tick_fn)(uint32_t now_ms, void *ctx);
-
-struct UA_Server;
+#include <node/opcua.h>
+#include <led/subsystem.h>
 
 /**
- * A wrapper struct that bundles things that are common to all nodes, independent
- * of whether they serve LED strips, temperature sensors or whatever. Node-specific
- * data can be stored in the `data` field.
+ * A wrapper struct that bundles node and subsystem data together.
  */
 struct node {
 	const char *name;
-	struct UA_Server *server;
 
-	void *data;
+        /** Data the generic node needs to keep about the OPC UA server it
+         * is hosting.
+         */
+	struct node_opcua_data ua_data;
+
+        struct led_subsystem led_subsystem;
 };
 
 struct node *node_create(const char *name);
 void node_destroy(struct node *node);
 
+/** 
+ * Run the node. This sets up the OPC UA information model based on the populated
+ * subsystems and exposes the node.
+ */
 node_error_t node_run(struct node *node);
 void node_stop(struct node *node);

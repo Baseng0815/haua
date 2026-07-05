@@ -1,4 +1,4 @@
-#include <node.h>
+#include <node/node.h>
 
 #include <open62541/server.h>
 
@@ -9,21 +9,21 @@ struct node *node_create(const char *name)
 	struct node *node = malloc(sizeof(*node));
 
 	node->name = name;
-	node->server = UA_Server_new();
-        node->data = NULL;
 
 	return node;
 }
 
 void node_destroy(struct node *node)
 {
-	UA_Server_delete(node->server);
+	UA_Server_delete(node->ua_data.server);
 	free(node);
 }
 
 node_error_t node_run(struct node *node)
 {
-	UA_Server_runUntilInterrupt(node->server);
+	node->ua_data.server = UA_Server_new();
+        node_opcua_expose_node(node);
+	UA_Server_runUntilInterrupt(node->ua_data.server);
 
 	return NODE_OK;
 }

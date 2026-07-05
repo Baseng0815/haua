@@ -1,5 +1,6 @@
-#include "effects/solid.h"
-#include <effects/effects.h>
+#include <led/effects/effects.h>
+
+#include <led/effects/solid.h>
 
 void effect_apply(const struct effect *effect, struct strip *strip)
 {

@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <mock_strip.h>
-#include <types.h>
-#include <hal.h>
+#include <led/mock_strip.h>
+#include <led/types.h>
+#include <led/hal.h>
 
 led_error_t led_hal_init(const void *config, struct strip *strip)
 {

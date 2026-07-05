@@ -1,4 +1,4 @@
-#include <effects/solid.h>
+#include <led/effects/solid.h>
 
 void effect_solid_apply(
 	const struct solid_params *params, const led_time_t time,
